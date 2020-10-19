@@ -1,0 +1,21 @@
+<!-- CSS  -->
+ <link href="https://vjs.zencdn.net/7.2.3/video-js.css" rel="stylesheet">
+
+
+<!-- HTML -->
+<video id='hls-example'  class="video-js vjs-default-skin" width="400" height="300" controls>
+<source type="application/x-mpegURL" src="http://24.203.7.67:8080/test.m3u8">
+</video>
+
+
+<!-- JS code -->
+<script src="https://vjs.zencdn.net/7.2.3/video.js"></script>
+
+<script>
+    var file = 'http://localhost:8080/test.mru8';
+    var player = videojs('hls-example');
+    if(file.exists()){
+        player.play();
+    }
+</script>
+

@@ -1,0 +1,10 @@
+<% Dir.chdir(@param) %>
+<% folder = Array.new %>
+<% Dir.glob('*').select { |f| folder.push(f) } %>
+<% folder.each do |item| %>
+  <% if File.directory?(item) %>
+    <button id="<%= item %>" onclick="$('#append').html(selectFolder('<%= @param + item  %>'))" ondblclick="sendRequest('<%= @param + item  %>')"><%= item %></button>
+  <% end %>
+<% end %>
+
+<div id="folders"></div>
