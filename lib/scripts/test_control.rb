@@ -1,4 +1,4 @@
 require 'daemons'
 
-Daemons.run('lib/scripts/test.rb')
+Daemons.run('/home/william/filmBuddies/lib/scripts/test.rb')
 

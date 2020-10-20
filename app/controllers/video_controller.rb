@@ -5,34 +5,36 @@ class VideoController < ApplicationController
 
   def watch
 
-    require 'pathname'
-    @video_file = Pathname.new('/tmp/hls/test.m3u8')
-
-
-    # Controller for when a stream is being hosted.
   end
 
-  def host
+  def hoster
+
+    @file = params[:url]
+
     require "net/http"
-    url = URI.parse("http://localhost:8080/test.m3u8")
+    url = URI.parse("http://localhost:8080/movie.m3u8")
     req = Net::HTTP.new(url.host, url.port)
-    res = req.request_head(url.path)
-    test = "/home/william/Downloads/cage.mp4"
-    #check if process is not already running
-    puts test
-     if(!File.file?("lib/scripts/test.rb.pid"))
-      %x(ruby lib/scripts/test_control.rb start -- #{test})
+    res = req.request_head(url.path) #to get the request code of the stream url
+
+    if(!File.file?("/lib/scripts/test.rb.pid")) #check if process is not already running
+      %x(ruby /home/william/filmBuddies/lib/scripts/test_control.rb start -- #{@file})
     else
-      print "process is already running"
+      print "process is already running"  #for console
     end
-   # give time for the script to load, once it is loaded, redirect to /test.html
-    while res.code == "404" do
+    # give time for the script to load, once it is loaded, redirect to /test.html
+     while res.code == "404" do
       sleep(1)
-       req = Net::HTTP.new(url.host, url.port)
+      req = Net::HTTP.new(url.host, url.port)
       res = req.request_head(url.path)
      end
 
-    redirect_to '/test.html'
+    redirect_to '/video/watch'
+  end
+
+  def host
+
+    @folder = Folder.all
+
   end
 
   def configure
@@ -40,11 +42,13 @@ class VideoController < ApplicationController
   end
 
   def add
-    @folder = Folder.new(params[:path])
+    @folder = Folder.new
+    @folder.path = params[:p]
+    @folder.save
   end
 
   def new
-    @folder = Folder.new
+
   end
 
 end

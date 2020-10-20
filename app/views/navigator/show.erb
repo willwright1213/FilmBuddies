@@ -1,10 +1,38 @@
+<style>
+    html, body {
+        height: 100%;
+        padding: 0;
+        margin: 0;
+    }
+</style>
+
 <% Dir.chdir(@param) %>
 <% folder = Array.new %>
 <% Dir.glob('*').select { |f| folder.push(f) } %>
-<% folder.each do |item| %>
-  <% if File.directory?(item) %>
-    <button id="<%= item %>" onclick="$('#append').html(selectFolder('<%= @param + item  %>'))" ondblclick="sendRequest('<%= @param + item  %>')"><%= item %></button>
+
+<% if @type == 'directory' %>
+  <% folder.each do |item| %>
+    <% if File.directory?(item) %>
+      <div style="width: 128px; float: left; margin: 20px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+        <img src = '/images/folder.png' id="<%= item %>" onclick="selectFolder('<%= @param + item %>', '#p')" ondblclick="sendRequest('<%= @param + item  %>', '<%= @type %>')"><p style="text-align: center"><%= item %></p>
+      </div>
+    <% end %>
   <% end %>
 <% end %>
 
-<div id="folders"></div>
+<% if @type == 'file' %>
+  <% folder.each do |item| %>
+    <% if File.directory?(item) %>
+      <div style="width: 128px; float: left; margin: 20px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+        <img src = '/images/folder.png' id="<%= item %>" ondblclick="sendRequest('<%= @param + item  %>', '<%= @type %>')"><p style="text-align: center"><%= item %></p>
+      </div>
+      <% next %>
+    <% end %>
+    <% if File.file?(item) && @accepted_format.include?(File.extname(item))%>
+      <div style="width: 128px; float: left; margin: 20px; overflow: hidden; text-overflow: ellipsis;">
+        <img src = '/images/movie.png' style="width: 128px; height: 128px;" id="<%= item %>" ondblclick="host('<%= @param + '/' + item %>')"><p style="text-align: center"><%= item %></p>
+      </div>
+    <% end %>
+  <% end %>
+<% end %>
+

@@ -1,4 +1,10 @@
 
+<%= form_with(url: "/video/add", method: "post") do %>
+  <%= label_tag(:p, "folder.png path") %>
+  <%= text_field_tag(:p) %>
+  <%= submit_tag("Add Folder") %>
+<% end %>
+
 <div id="test"></div>
 <div id="append"></div>
 <script>
