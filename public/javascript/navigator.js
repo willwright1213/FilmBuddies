@@ -6,7 +6,7 @@ function initiateNavigator(type) {
     $(document).ready(function(){
         $.post("/navigator/navigate",
             {
-                url: "/home/william/Videos",
+                url: 'initiate',
                 type: type
             },
             function(data) {

@@ -7,6 +7,7 @@
 </style>
 
 <% Dir.chdir(@param) %>
+
 <% folder = Array.new %>
 <% Dir.glob('*').select { |f| folder.push(f) } %>
 

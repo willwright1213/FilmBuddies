@@ -1,4 +1,4 @@
-class NavigatorController < ApplicationController\
+class NavigatorController < ApplicationController
 
 
   def show
@@ -7,7 +7,11 @@ class NavigatorController < ApplicationController\
 
   def navigate
     @accepted_format = [".mkv" ,".mp4"]
-    @param = params[:url]
+    if(params[:url] == 'initiate')
+      @param = VIDEO_FOLDER
+    else
+      @param = params[:url]
+    end
     @type = params[:type]
     render 'navigator/show'
   end

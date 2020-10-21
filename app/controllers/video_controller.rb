@@ -12,12 +12,13 @@ class VideoController < ApplicationController
     @file = params[:url]
 
     require "net/http"
-    url = URI.parse("http://localhost:8080/movie.m3u8")
+    url = URI.parse(HLS)
     req = Net::HTTP.new(url.host, url.port)
     res = req.request_head(url.path) #to get the request code of the stream url
+    Dir.chdir(APP_PATH)
+    if(!File.file?("lib/scripts/live.rb.pid")) #check if process is not already running
 
-    if(!File.file?("/lib/scripts/test.rb.pid")) #check if process is not already running
-      %x(ruby /home/william/filmBuddies/lib/scripts/test_control.rb start -- #{@file})
+      %x(ruby lib/scripts/live_control.rb start -- #{@file} #{RTMP} -t)
     else
       print "process is already running"  #for console
     end
